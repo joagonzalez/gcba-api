@@ -1,3 +1,4 @@
+import time
 import pprint
 from src.services.gcba import GCBA
 from src.config.setting import config
@@ -10,19 +11,22 @@ class Application():
     def __init__(self) -> None:
         self.pp = pprint.PrettyPrinter(indent=4)
         self.api = GCBA()
-        self.station_info = self.api.get_station_information()
-        self.station_status = self.api.get_station_status()
-        
-        monitor.ecobici_amount_stations.set(len(self.station_info['data']['stations']))
-        
+                
     def run(self) -> None:
         '''
         Trigger main application
         '''
         logger.info('Starting application...')
         start_http_server(config['MONITORING_PORT'])
-        self.update_metric()
-      
+        
+        while True:
+            self.update_metric()
+            time.sleep(config['GCBA_API_SAMPLING_TIME'])
+            
+    def fech_station_data(self):
+        logger.info(f'updating stations data...')
+        self.station_info = self.api.get_station_information()
+        self.station_status = self.api.get_station_status()
         
     def pretty(self, data):
         return self.pp.pprint(data)
@@ -36,6 +40,8 @@ class Application():
         return output
              
     def update_metric(self):
+        self.fech_station_data()
+        monitor.ecobici_amount_stations.set(len(self.station_info['data']['stations']))
         data = self.logic(self.station_info, self.station_status)
         for station_id, station in data.items():
             try:
