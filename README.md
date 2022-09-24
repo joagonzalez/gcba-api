@@ -1,6 +1,11 @@
 ## GCBA API
+City of Buenos Aires bikes stations real time data visualization service using grafana as UI and prometheus as time series storage.
 
-### Data example
+
+<img src="doc/geomap.png" />
+
+
+### GCBA API data structure example
 
 ```json
 {   
