@@ -5,6 +5,23 @@ City of Buenos Aires bikes stations real time data visualization service using g
 <img src="doc/geomap.png" />
 
 
+### Install
+
+```bash
+pip install -r requirements.txt
+python run.py
+```
+A `/metrics` endpoint is exposed by python service so prometheus can scrape it.
+
+### Parameters
+Basic parameters that can be configured using .env file in `src/config` folder
+
+```bash
+GCBA_API_CLIENT_ID=<CLIENT_ID>
+GCBA_API_CLIENT_SECRET=<CLIENT_SECRET>
+GCBA_API_SAMPLING_TIME=600
+```
+
 ### GCBA API data structure example
 
 ```json
