@@ -43,8 +43,10 @@ class Application():
         self.fech_station_data()
         monitor.ecobici_amount_stations.set(len(self.station_info['data']['stations']))
         data = self.logic(self.station_info, self.station_status)
+        counter = 0
         for station_id, station in data.items():
             try:
+                counter += int(station['capacity']) 
                 monitor.ecobici_station.labels(station_id, 
                                             station['capacity'],
                                             station['lat'],
@@ -54,3 +56,4 @@ class Application():
             except Exception as e:
                 logger.error(f'Error updating metric for station {station_id}. Error: {e}')
             
+            monitor.ecobici_bikes_capacity.set(counter)

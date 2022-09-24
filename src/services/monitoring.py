@@ -7,6 +7,7 @@ class Monitoring:
                                      labelnames=['id', 'capacity', 'lat', 'lon', 'name'])
         self.ecobici_amount_stations = Gauge('ecobici_amount_stations', 'Amount of available Ecobici Stations',
                                              )
+        self.ecobici_bikes_capacity = Gauge('ecobici_bikes_capacity', 'Total capacity taking into account all avaliable stations')
 
         
 monitor = Monitoring()
